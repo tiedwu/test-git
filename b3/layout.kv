@@ -3,6 +3,7 @@
 #:import ManagePage manage_page
 #:import BuildingPage building_page
 #:import MilitaryPage military_page
+#:import WarPage war_page
 
 <MultiPage>:
     ManagePage:
@@ -11,6 +12,8 @@
         name: '_buildingpage'
     MilitaryPage:
         name: '_militarypage'
+    WarPage:
+        name: '_warpage'
 
 <InfoLabel@Label>
     font_size: '13sp'
@@ -75,7 +78,7 @@
     FuncButton:
         text: u'战争'
         background_color: .5, 0, .5, 1
-        #on_release: root.switch_screen(name="_warpage")
+        on_release: root.switch_screen(name="_warpage")
     FuncButton:
         text: u'商店'
         background_color: 1, 0, 1, 1
