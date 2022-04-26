@@ -4,6 +4,7 @@
 #:import BuildingPage building_page
 #:import MilitaryPage military_page
 #:import WarPage war_page
+#:import StorePage store_page
 
 <MultiPage>:
     ManagePage:
@@ -14,6 +15,8 @@
         name: '_militarypage'
     WarPage:
         name: '_warpage'
+    StorePage: 
+        name: '_storepage'
 
 <InfoLabel@Label>
     font_size: '13sp'
@@ -82,7 +85,7 @@
     FuncButton:
         text: u'商店'
         background_color: 1, 0, 1, 1
-        #on_release: root.switch_screen(name="_storepage")
+        on_release: root.switch_screen(name="_storepage")
     FuncButton:
         text: u'消息'
         background_color: 1, 0, 0, 1

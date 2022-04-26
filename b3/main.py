@@ -10,7 +10,7 @@ Builder.load_file("manage_page.kv")
 Builder.load_file("building_page.kv")
 Builder.load_file("military_page.kv")
 Builder.load_file("war_page.kv")
-
+Builder.load_file("store_page.kv")
 
 class MainInfo(BoxLayout):
     pass
