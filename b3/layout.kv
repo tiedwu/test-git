@@ -5,6 +5,7 @@
 #:import MilitaryPage military_page
 #:import WarPage war_page
 #:import StorePage store_page
+#:import NewsPage news_page
 
 <MultiPage>:
     ManagePage:
@@ -17,6 +18,9 @@
         name: '_warpage'
     StorePage: 
         name: '_storepage'
+    NewsPage:
+        name: '_newspage'
+
 
 <InfoLabel@Label>
     font_size: '13sp'
@@ -89,7 +93,7 @@
     FuncButton:
         text: u'消息'
         background_color: 1, 0, 0, 1
-        #on_release: root.switch_screen(name="_newspage")
+        on_release: root.switch_screen(name="_newspage")
 
 <RootWidget>:
     orientation: 'vertical'
