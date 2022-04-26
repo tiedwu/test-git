@@ -16,7 +16,7 @@
         BoxLayout:
             canvas.before:
                 Color:
-                    rgba: 1, 0, 0, 1
+                    rgba: 0, 0, 0, 1
                 Line:
                     width: 2
                     rectangle: self.x, self.y, self.width, self.height
@@ -50,13 +50,15 @@
                     size_hint: .75, 1
                     orientation: 'vertical'
                     BuildingLabel:
-                        text: " "* 20 + u'每分钟会有等级*1人口入驻并产出等级*100资源储量'
+                        text: " "* 5 + u'每分钟会有等级*1人口入驻并产出等级*100资源'
                         text_size: self.size
                         halign: 'left'
                         valign: 'bottom'
+                        font_size: '13sp'
                     BuildingLabel:
-                        text: " "* 20 + u'(最低50)， 每次采集资源量为等级*5(最低3)'
+                        text: " "* 5 + u'储量(最低50)， 每次采集资源量为等级*5(最低3)'
                         text_size: self.size
+                        font_size: '13sp'
                         halign: 'left'
                         valign: 'top'
                 BoxLayout:
@@ -73,20 +75,20 @@
                 size_hint: 1, .25
                 BuildingLabel:
                     size_hint: .3, 1
-                    text: " " * 20 + u"升级消耗资源"
+                    text: " " * 5 + u"升级消耗资源"
                     text_size: self.size
                     halign: 'left'
                     valign: 'middle'
                 BuildingLabel:
                     size_hint: .7, 1
-                    text: " "* 20 + "9999999"
+                    text: " "* 5 + "9999999"
                     text_size: self.size
                     halign: 'left'
                     valign: 'middle'
         BoxLayout:
             canvas.before:
                 Color:
-                    rgba: 1, 0, 0, 1
+                    rgba: 0, 0, 0, 1
                 Line:
                     width: 2
                     rectangle: self.x, self.y, self.width, self.height
@@ -120,7 +122,7 @@
                     size_hint: .75, 1
                     orientation: 'vertical'
                     BuildingLabel:
-                        text: " "* 20 +  u'每一级提升5人口上限'
+                        text: " " * 5 +  u'每一级提升5人口上限'
                         text_size: self.size
                         halign: 'left'
                         valign: 'middle'
@@ -138,20 +140,20 @@
                 size_hint: 1, .25
                 BuildingLabel:
                     size_hint: .3, 1
-                    text: " " * 20 + u"升级消耗资源"
+                    text: " " * 5 + u"升级消耗资源"
                     text_size: self.size
                     halign: 'left'
                     valign: 'middle'
                 BuildingLabel:
                     size_hint: .7, 1
-                    text: " "* 20 + "9999999"
+                    text: " "* 5 + "9999999"
                     text_size: self.size
                     halign: 'left'
                     valign: 'middle'
         BoxLayout:
             canvas.before:
                 Color:
-                    rgba: 1, 0, 0, 1
+                    rgba: 0, 0, 0, 1
                 Line:
                     width: 2
                     rectangle: self.x, self.y, self.width, self.height
@@ -185,13 +187,15 @@
                     size_hint: .75, 1
                     orientation: 'vertical'
                     BuildingLabel:
-                        text: " "* 20 + u'防守时敌方需攻破城卫方可对军队发起普通攻击, 每'
+                        text: " "* 5 + u'防守时敌方需攻破城卫方可对军队发起普通攻击, 每'
                         text_size: self.size
+                        font_size: '13sp'
                         halign: 'left'
                         valign: 'bottom'
                     BuildingLabel:
-                        text: " "* 20 + u'一级提升城卫5血量10防御10攻击'
+                        text: " "* 5 + u'一级提升城卫5血量10防御10攻击'
                         text_size: self.size
+                        font_size: '13sp'
                         halign: 'left'
                         valign: 'top'
                 BoxLayout:
@@ -208,20 +212,20 @@
                 size_hint: 1, .25
                 BuildingLabel:
                     size_hint: .3, 1
-                    text: " " * 20 + u"升级消耗资源"
+                    text: " " * 5 + u"升级消耗资源"
                     text_size: self.size
                     halign: 'left'
                     valign: 'middle'
                 BuildingLabel:
                     size_hint: .7, 1
-                    text: " "* 20 + "99999"
+                    text: " "* 5 + "99999"
                     text_size: self.size
                     halign: 'left'
                     valign: 'middle'
         BoxLayout:
             canvas.before:
                 Color:
-                    rgba: 1, 0, 0, 1
+                    rgba: 0, 0, 0, 1
                 Line:
                     width: 2
                     rectangle: self.x, self.y, self.width, self.height
@@ -255,7 +259,7 @@
                     size_hint: .75, 1
                     orientation: 'vertical'
                     BuildingLabel:
-                        text: " "* 20 + u'每一级提升5兵力上限'
+                        text: " "* 5 + u'每一级提升5兵力上限'
                         text_size: self.size
                         halign: 'left'
                         valign: 'middle'
@@ -273,13 +277,13 @@
                 size_hint: 1, .25
                 BuildingLabel:
                     size_hint: .3, 1
-                    text: " " * 20 + u"升级消耗资源"
+                    text: " " * 5 + u"升级消耗资源"
                     text_size: self.size
                     halign: 'left'
                     valign: 'middle'
                 BuildingLabel:
                     size_hint: .7, 1
-                    text: " "* 20 + "99999"
+                    text: " "* 5 + "99999"
                     text_size: self.size
                     halign: 'left'
                     valign: 'middle'

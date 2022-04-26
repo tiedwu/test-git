@@ -1,3 +1,6 @@
+
+__version__ = '0.6'
+
 from kivy.uix.screenmanager import ScreenManager
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
