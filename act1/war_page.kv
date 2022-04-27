@@ -1,0 +1,47 @@
+
+<WarLabel@Label>    
+    font_size: '16sp'
+    font_name: "font/DroidSansFallback.ttf"
+    color: 0, 0, 0, 1
+<WarButton@Button,WarTextInput@TextInput>    
+    font_size: '16sp'
+    font_name: "font/DroidSansFallback.ttf"
+    #color: 0, 0, 0, 1
+
+<WarPage>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            size_hint: 1, .7
+            text: "nothing"
+            color: 0, 0, 0, 1
+        BoxLayout:
+            size_hint: 1, .1
+            padding:10, 5
+            spacing_x: 10
+            AnchorLayout:
+                #size_hint: .6, 1
+                #padding: 10
+                #Button:
+                    #text: "TEST"
+                WarTextInput:
+                    size_hint: .99, .99
+                    #hint_text: '%s, %s' % (self.get_center_x(), self.get_center_y())
+                    hint_text: u'输入6位ID可定向搜索'
+                    multiline: False
+                    #size: 200, 30
+                    pos_hint: {'x': .1}
+            WarButton:
+                text: u"定向搜索 45 水晶"
+        BoxLayout:
+            padding: 10
+            spacing: 30
+            size_hint: 1, .2
+            WarButton:
+                text: u"强攻(破免)\n300水晶"
+            WarButton:
+                text: u"出征\n2水晶"
+            WarButton:
+                text: u"随机搜索\n3水晶"
+    
+        
