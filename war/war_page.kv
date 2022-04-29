@@ -1,20 +1,83 @@
 
-<WarLabel@Label>    
+<WarLabel@Label>: 
     font_size: '16sp'
     font_name: "font/DroidSansFallback.ttf"
     color: 0, 0, 0, 1
-<WarButton@Button,WarTextInput@TextInput>    
+    text_size: self.size
+    halign: 'left'
+    valign: 'middle'
+<WarButton@Button,WarTextInput@TextInput>:   
     font_size: '16sp'
     font_name: "font/DroidSansFallback.ttf"
     #color: 0, 0, 0, 1
 
+<EnemyInfo@BoxLayout>:
+
+<WarResult@BoxLayout>:
+
 <WarPage>:
+    #enemy_info_box: _enemy_info_box
+    #enemy_info: _enemy_info
+    
     BoxLayout:
         orientation: 'vertical'
-        Label:
+        BoxLayout:
+            orientation: 'vertical'
             size_hint: 1, .7
-            text: "nothing"
-            color: 0, 0, 0, 1
+            EnemyInfo:
+                id: _enemy_info
+                #cols: 1
+                padding: 20, 10
+                orientation: 'vertical'
+                size_hint: 1, .5
+                #BoxLayout:
+                   # id: _enemy_info_box
+                    #orientation: 'vertical'
+                WarLabel:
+                    id: _enemy_id
+                    text: ""
+                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
+                    #color: 0, 0, 0, 1
+                WarLabel:
+                    id: _enemy_name
+                    text: u""
+                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
+                    #color: 0, 0, 0, 1
+                WarLabel:
+                    id: _enemy_resources
+                    text: ""
+                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
+                    #color: 0, 0, 0, 1
+                WarLabel:
+                    id: _enemy_guard
+                    text: u""
+                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
+                    #color: 0, 0, 0, 1
+                WarLabel:
+                    id: _enemy_lancer
+                    text: u""
+                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
+                    #color: 0, 0, 0, 1
+                WarLabel:
+                    id: _enemy_shieldman
+                    text: u""
+                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
+                    #color: 0, 0, 0, 1
+                WarLabel:
+                    id: _enemy_archer
+                    text: u""
+                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
+                    #color: 0, 0, 0, 1
+                WarLabel:
+                    id: _enemy_cavalryman
+                    text: u""
+                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
+                    #color: 0, 0, 0, 1
+            WarResult:
+                id: _war_result
+                size_hint: .1, .5
+                #WarLabel:
+                    #text: 'lose! : 12334'
         BoxLayout:
             size_hint: 1, .1
             padding:10, 5
@@ -25,7 +88,7 @@
                 #Button:
                     #text: "TEST"
                 WarTextInput:
-                    id: _enemyid
+                    id: _get_enemyid
                     size_hint: .99, .99
                     #hint_text: '%s, %s' % (self.get_center_x(), self.get_center_y())
                     hint_text: u'输入6位ID可定向搜索'
@@ -33,8 +96,9 @@
                     #size: 200, 30
                     pos_hint: {'x': .1}
             WarButton:
+                id: _target_assign
                 text: u"定向搜索 45 水晶"
-                on_release: print(_enemyid.text)
+                #on_release: print(_enemyid.text)
         BoxLayout:
             padding: 10
             spacing: 30

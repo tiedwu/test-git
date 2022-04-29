@@ -10,6 +10,11 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from os.path import exists
 import json
+
+from kivy.uix.label import Label
+
+#import war_page
+
 #from kivy.utils import utils
 
 Builder.load_file("layout.kv")
@@ -19,6 +24,15 @@ Builder.load_file("military_page.kv")
 Builder.load_file("war_page.kv")
 Builder.load_file("store_page.kv")
 Builder.load_file("news_page.kv")
+
+class WarMainLabel(Label):
+    color = [0, 0, 0, 1]
+    font_size = 20
+    font_name = "font/DroidSansFallback.ttf"
+    #color: 0, 0, 0, 1
+    text_size = [200, 100]
+    halign = 'left'
+    valign ='middle'  
 
 class MainInfo(BoxLayout):
     nickname = 'Admin'
@@ -53,6 +67,7 @@ class RootWidget(BoxLayout):
         super(RootWidget, self).__init__()
         self.userid = kwargs["userid"]
         self.data = kwargs["data"][self.userid]
+        self.enemy_data = kwargs["data"]
         
         # init maininfo labels
         self.ids["_maininfo"].userid = self.userid
@@ -100,6 +115,69 @@ class RootWidget(BoxLayout):
         self.ids["_multipage"].ids["_militarypage"].ids["_train_shieldman"].bind(on_release=self.train_shieldman)
         self.ids["_multipage"].ids["_militarypage"].ids["_train_archer"].bind(on_release=self.train_archer)
         self.ids["_multipage"].ids["_militarypage"].ids["_train_cavalryman"].bind(on_release=self.train_cavalryman)
+        
+        # bind warpage buttons
+        self.ids["_multipage"].ids["_warpage"].ids["_target_assign"].bind(on_release=self.show_enemy)
+        
+        # bind storepage buttons
+        self.ids["_multipage"].ids["_storepage"].ids["_get_crystal_15"].bind(on_release=self.get_crystal_15)
+        
+    def show_enemy(self, instance):
+        
+        # get enemy id
+        enemy_id = self.ids._multipage.ids._warpage.ids._get_enemyid.text
+        if enemy_id == "":
+            return
+    
+        print(enemy_id)
+        
+        if enemy_id not in self.enemy_data.keys():
+            return
+        
+        war_enemy = self.enemy_data[enemy_id]
+        enemy = {
+            "id": enemy_id, 
+            "name": war_enemy["nickname"], 
+            "resources": war_enemy["resources"], 
+            "guard": war_enemy["buildings"]["guard"], 
+            "lancer": war_enemy["soldiers"]["lancer"], 
+            "shieldman": war_enemy["soldiers"]["shieldman"],
+            "archer": war_enemy["soldiers"]["archer"], 
+            "cavalryman": war_enemy["soldiers"]["cavalryman"]
+        }
+        self.ids["_multipage"].ids["_warpage"].set_enemy(enemy)
+        self.ids["_multipage"].ids["_warpage"].update_enemy()
+#        print("show enemy info")
+#        #self.ids._multipage.ids._warpage.enemy_info.remove_widget(enemy_info_box)
+#        #layout = self.ids["_multipage"].ids["_warpage"].ids["_enemy_info"]
+#        layout = self.ids._multipage.ids._warpage.ids._enemy_info
+#        
+#        for w in layout.children:
+#            layout.remove_widget(w)
+#        
+#        box = BoxLayout(orientation='vertical')
+#        
+#        # get enemy info
+#        user = self.ids._multipage.ids._warpage.ids._enemyid.text
+#        print(user)
+#        
+#        
+#    
+#        box.add_widget(WarMainLabel(text="id: xxxx"))
+#        box.add_widget(WarMainLabel(text="name: xxxx"))
+#        box.add_widget(WarMainLabel(text="resource: xxxxx"))
+#        box.add_widget(WarMainLabel(text="guard: xxxxx"))
+#        box.add_widget(WarMainLabel(text="lancer: xxxxx"))
+#        box.add_widget(WarMainLabel(text="shieldman: xxxxx"))
+#        box.add_widget(WarMainLabel(text="archer: xxxxx"))
+#        box.add_widget(WarMainLabel(text="cavalryman: xxxxx")) 
+# 
+#        layout.add_widget(box)
+        
+    
+    def get_crystal_15(self, instance):
+        self.ids["_maininfo"].crystal += 15
+        self.ids["_maininfo"].update()    
         
     def train_lancer(self, instance):
         print("train lancer")
