@@ -1,6 +1,6 @@
 
 <WarLabel@Label>: 
-    font_size: '16sp'
+    font_size: '14sp'
     font_name: "font/DroidSansFallback.ttf"
     color: 0, 0, 0, 1
     text_size: self.size
@@ -11,7 +11,7 @@
     font_name: "font/DroidSansFallback.ttf"
     #color: 0, 0, 0, 1
 
-<EnemyInfo@BoxLayout>:
+<EnemyInfo@GridLayout>:
 
 <WarResult@BoxLayout>:
 
@@ -24,60 +24,44 @@
         BoxLayout:
             orientation: 'vertical'
             size_hint: 1, .7
-            EnemyInfo:
+            BoxLayout:
                 id: _enemy_info
-                #cols: 1
                 padding: 20, 10
                 orientation: 'vertical'
                 size_hint: 1, .5
-                #BoxLayout:
-                   # id: _enemy_info_box
-                    #orientation: 'vertical'
-                WarLabel:
-                    id: _enemy_id
-                    text: ""
-                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
-                    #color: 0, 0, 0, 1
-                WarLabel:
-                    id: _enemy_name
-                    text: u""
-                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
-                    #color: 0, 0, 0, 1
-                WarLabel:
-                    id: _enemy_resources
-                    text: ""
-                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
-                    #color: 0, 0, 0, 1
-                WarLabel:
-                    id: _enemy_guard
-                    text: u""
-                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
-                    #color: 0, 0, 0, 1
-                WarLabel:
-                    id: _enemy_lancer
-                    text: u""
-                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
-                    #color: 0, 0, 0, 1
-                WarLabel:
-                    id: _enemy_shieldman
-                    text: u""
-                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
-                    #color: 0, 0, 0, 1
-                WarLabel:
-                    id: _enemy_archer
-                    text: u""
-                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
-                    #color: 0, 0, 0, 1
-                WarLabel:
-                    id: _enemy_cavalryman
-                    text: u""
-                    ##text: "id: xxxxx\nname: xxxxxx\nresources: 999,999\nguard: 1,234\nlancer: 1,234\nshieldman: 12,345\narcher: 123\ncavalryman: 123"
-                    #color: 0, 0, 0, 1
+                BoxLayout:
+                    orientation: 'vertical'
+                    BoxLayout:
+                        WarLabel:
+                            id: _enemy_id
+                            text: ""
+                        WarLabel:
+                            id: _enemy_name
+                            text: u""
+                        WarLabel:
+                            id: _enemy_guard
+                            text: ""
+                        WarLabel:
+                            id: _enemy_resources
+                            text: u""
+                    BoxLayout:
+                        WarLabel:
+                            id: _enemy_lancer
+                            text: u""
+                        WarLabel:
+                            id: _enemy_shieldman
+                            text: u""
+                        WarLabel:
+                            id: _enemy_archer
+                            text: u""
+                        WarLabel:
+                            id: _enemy_cavalryman
+                            text: u""
             WarResult:
                 id: _war_result
-                size_hint: .1, .5
-                #WarLabel:
-                    #text: 'lose! : 12334'
+                size_hint: 1, .5
+                Button:
+                    text: 'lose! : 12334'
         BoxLayout:
             size_hint: 1, .1
             padding:10, 5
@@ -106,6 +90,7 @@
             WarButton:
                 text: u"强攻(破免)\n300水晶"
             WarButton:
+				id: _campaign
                 text: u"出征\n2水晶"
             WarButton:
                 text: u"随机搜索\n3水晶"

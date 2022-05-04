@@ -1,8 +1,3 @@
-from kivy.uix.screenmanager import Screen
-from kivy.uix.label import Label
-from kivy.uix.boxlayout import BoxLayout
-
-# strat army.py
 from random import randint
 import math
 
@@ -14,7 +9,6 @@ unit_military_abilities = {
     'cavalryman': [7,  15,  11,  3900]
 }
 
-'''
 enemies = {
     "guard": 100, 
     "lancer": 1805, 
@@ -29,7 +23,6 @@ me = {
     "archer": 1000, 
     "cavalryman": 20000
 }
-'''
 
 position = ['guard',  'shieldman',  'lancer', 'cavalryman',  'archer']
 
@@ -185,47 +178,9 @@ def fight(g1,  g2):
 
 	return result
 
-#attacks = get_formation(me)
-#defends = get_formation(enemies)
+attacks = get_formation(me)
+defends = get_formation(enemies)
 #print(attacks)
 #print(defends)
-#result = fight(attacks,  defends)
-#print("War of Result: ",  result)
-
-
-
-# end army.py
-
-class WarPage(Screen):
-	enemy = {
-		"id": "000000", 
-		"name": "Enemy", 
-		"resources": 0, 
-		"guard": 0, 
-		"lancer": 0, 
-		"shieldman": 0,
-		"archer": 0, 
-		"cavalryman": 0
-	}
-
-	def campaign(self, me):
-		me_troops = get_formation(me)
-		enemy_troops = get_formation(self.enemy)
-		print(me_troops, enemy_troops)
-		
-		return ""
-
-
-	def set_enemy(self,  enemy):
-		self.enemy = enemy
-
-	def update_enemy(self):
-		self.ids._enemy_id.text ="id: %s" % self.enemy["id"]
-		self.ids._enemy_name.text = u"name: %s" % self.enemy["name"]
-		self.ids._enemy_resources.text = "resources: %s" % str(format(self.enemy["resources"],  ","))
-		self.ids._enemy_guard.text = "guard: %s" % str(format(self.enemy["guard"],  ","))
-		self.ids._enemy_lancer.text = "lancer: %s" % str(format(self.enemy["lancer"],  ","))
-		self.ids._enemy_shieldman.text = "shieldman: %s" % str(format(self.enemy["shieldman"],  ","))
-		self.ids._enemy_archer.text = "archer: %s" % str(format(self.enemy["archer"],  ","))
-		self.ids._enemy_cavalryman.text = "cavalryman: %s" % str(format(self.enemy["cavalryman"],  ","))
-
+result = fight(attacks,  defends)
+print("War of Result: ",  result)

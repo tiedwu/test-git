@@ -11,14 +11,21 @@ class BuildingPage(Screen):
     camp_cost = 0
     
     def calc_cost(self, k, lv):
-        if k == 'castle':
-            return (lv+1) * 10
-        elif k == 'house':
-            return (lv+1) * 10
-        elif k == 'guard':
-            return (lv+1) * 10
-        elif k == 'camp':
-            return (lv+1) * 10
+        factors = {'camp': [12616, 6054], 'castle': [15129, 7523], \
+			'guard': [3613, 1851], 'house': [4129, 2023]}
+       
+        res = factors[k][0] + (lv+1) * factors[k][1]
+        #print(res)
+        return res
+#        
+#        if k == 'castle':
+#            return (lv+1) * 10
+#        elif k == 'house':
+#            return (lv+1) * 10
+#        elif k == 'guard':
+#            return (lv+1) * 10
+#        elif k == 'camp':
+#            return (lv+1) * 10
     
     def update(self):
         self.ids["_castle"].text = str(format(self.castle, ","))
