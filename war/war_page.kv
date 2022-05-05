@@ -11,7 +11,7 @@
     font_name: "font/DroidSansFallback.ttf"
     #color: 0, 0, 0, 1
 
-<EnemyInfo@GridLayout>:
+#<EnemyInfo@GridLayout>:
 
 <WarResult@BoxLayout>:
 
@@ -23,12 +23,12 @@
         orientation: 'vertical'
         BoxLayout:
             orientation: 'vertical'
-            size_hint: 1, .7
+            size_hint: 1, .85
             BoxLayout:
                 id: _enemy_info
                 padding: 20, 10
                 orientation: 'vertical'
-                size_hint: 1, .5
+                size_hint: 1, .8
                 BoxLayout:
                     orientation: 'vertical'
                     BoxLayout:
@@ -41,6 +41,7 @@
                         WarLabel:
                             id: _enemy_guard
                             text: ""
+                    BoxLayout:
                         WarLabel:
                             id: _enemy_resources
                             text: u""
@@ -51,20 +52,86 @@
                         WarLabel:
                             id: _enemy_shieldman
                             text: u""
+                    BoxLayout:
                         WarLabel:
                             id: _enemy_archer
                             text: u""
                         WarLabel:
                             id: _enemy_cavalryman
                             text: u""
+					BoxLayout:
+						spacing: 20
+						WarLabel:
+							text: "枪兵部署: "
+						Slider:
+							id: _lancer_assign
+							min: 0
+							max: root.lancer_max
+							step: 1
+							value: 0
+						WarLabel:
+							text: str(format(int(_lancer_assign.value), ","))
+					BoxLayout:
+						spacing: 20
+						WarLabel:
+							text: "盾兵部署: "
+						Slider:
+							id: _shieldman_assign
+							min: 0
+							max: root.shieldman_max
+							step: 1
+							value: 0
+						WarLabel:
+							text: str(format(int(_shieldman_assign.value), ","))
+					BoxLayout:
+						spacing: 20
+						WarLabel:
+							text: "弓兵部署: "
+						Slider:
+							id: _archer_assign
+							min: 0
+							max: root.archer_max
+							step: 1
+							value: 0
+						WarLabel:
+							text: str(format(int(_archer_assign.value), ","))
+					BoxLayout:
+						spacing: 20
+						WarLabel:
+							text: "骑兵部署: "
+						Slider:
+							id: _cavalryman_assign
+							min: 0
+							max: root.cavalryman_max
+							step: 1
+							value: 0
+							on_touch_move: root.show_cost()
+							on_touch_up: root.show_cost()
+						WarLabel:
+							text: str(format(int(_cavalryman_assign.value), ","))
+					BoxLayout:
+						WarLabel:
+							text: "出征所耗资源: "
+						WarLabel:
+							id: _resources_required
+							text: "0"
             WarResult:
                 id: _war_result
-                size_hint: 1, .5
-                Button:
-                    text: 'lose! : 12334'
+				orientation: 'vertical'
+                size_hint: 1, .2
+				padding: 20, 5
+                WarLabel:
+					id: _resources_rob
+                    text: ''
+				WarLabel:
+					id: _damaged_1
+					text: ''
+				WarLabel:
+					id: _damaged_2
+					text: ''
         BoxLayout:
-            size_hint: 1, .1
-            padding:10, 5
+            size_hint: 1, .05
+            padding:10, 3
             spacing_x: 10
             AnchorLayout:
                 #size_hint: .6, 1
@@ -84,9 +151,9 @@
                 text: u"定向搜索 45 水晶"
                 #on_release: print(_enemyid.text)
         BoxLayout:
-            padding: 10
+            padding: 3
             spacing: 30
-            size_hint: 1, .2
+            size_hint: 1, .1
             WarButton:
                 text: u"强攻(破免)\n300水晶"
             WarButton:

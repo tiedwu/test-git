@@ -185,17 +185,6 @@ def fight(g1,  g2):
 
 	return result
 
-#attacks = get_formation(me)
-#defends = get_formation(enemies)
-#print(attacks)
-#print(defends)
-#result = fight(attacks,  defends)
-#print("War of Result: ",  result)
-
-
-
-# end army.py
-
 class WarPage(Screen):
 	enemy = {
 		"id": "000000", 
@@ -208,24 +197,83 @@ class WarPage(Screen):
 		"cavalryman": 0
 	}
 
-	def campaign(self, me):
-		me_troops = get_formation(me)
-		enemy_troops = get_formation(self.enemy)
-		print(me_troops, enemy_troops)
-		
-		return ""
+	unit_campaign_cost = {"lancer": 300, "shieldman": 350,
+							"archer": 450, "cavalryman": 400}
 
+	lancer_max = 0
+	shieldman_max = 0
+	archer_max = 0
+	cavalryman_max = 0
+
+	campaign_cost = 0
+
+	me_soldiers = {"lancer": 0, "shieldman": 0,
+					"archer": 0, "cavalryman": 0}
+
+	result = {'resources': 0, 
+				"soldiers": {"lancer": 0, "shieldman": 0, 
+								"archer": 0, "cavalryman": 0}}
+
+	resources_rob = 0
+
+	# init the flag of show war result
+	show_war_result = False
+
+	def show_cost(self):
+
+		# set me_soldiers
+		self.me_soldiers["lancer"] = int(self.ids._lancer_assign.value)
+		self.me_soldiers["shieldman"] = int(self.ids._shieldman_assign.value)
+		self.me_soldiers["archer"] = int(self.ids._archer_assign.value)
+		self.me_soldiers["cavalryman"] = int(self.ids._cavalryman_assign.value)
+
+		cost = self.ids._lancer_assign.value * self.unit_campaign_cost["lancer"] + \
+				self.ids._shieldman_assign.value * self.unit_campaign_cost["shieldman"] + \
+				self.ids._archer_assign.value * self.unit_campaign_cost["archer"] + \
+				self.ids._cavalryman_assign.value * self.unit_campaign_cost["cavalryman"]
+		self.ids._resources_required.text = str(format(int(cost), ","))
+		self.campaign_cost = cost
+		#print(cost)
+
+	def campaign(self):
+		me_troops = get_formation(self.me_soldiers)
+		enemy_troops = get_formation(self.enemy)
+		self.result = fight(me_troops, enemy_troops)
+		self.show_war_result = True
+		return self.result
 
 	def set_enemy(self,  enemy):
 		self.enemy = enemy
 
-	def update_enemy(self):
-		self.ids._enemy_id.text ="id: %s" % self.enemy["id"]
-		self.ids._enemy_name.text = u"name: %s" % self.enemy["name"]
-		self.ids._enemy_resources.text = "resources: %s" % str(format(self.enemy["resources"],  ","))
-		self.ids._enemy_guard.text = "guard: %s" % str(format(self.enemy["guard"],  ","))
-		self.ids._enemy_lancer.text = "lancer: %s" % str(format(self.enemy["lancer"],  ","))
-		self.ids._enemy_shieldman.text = "shieldman: %s" % str(format(self.enemy["shieldman"],  ","))
-		self.ids._enemy_archer.text = "archer: %s" % str(format(self.enemy["archer"],  ","))
-		self.ids._enemy_cavalryman.text = "cavalryman: %s" % str(format(self.enemy["cavalryman"],  ","))
+	def update(self):
+		self.ids._enemy_id.text ="ID: %s" % self.enemy["id"]
+		self.ids._enemy_name.text = u"昵称: %s" % self.enemy["name"]
+		self.ids._enemy_resources.text = "资源: %s" % str(format(self.enemy["resources"],  ","))
+		self.ids._enemy_guard.text = "城卫: %s" % str(format(self.enemy["guard"],  ","))
+		self.ids._enemy_lancer.text = "枪兵: %s" % str(format(self.enemy["lancer"],  ","))
+		self.ids._enemy_shieldman.text = "盾兵: %s" % str(format(self.enemy["shieldman"],  ","))
+		self.ids._enemy_archer.text = "弓兵: %s" % str(format(self.enemy["archer"],  ","))
+		self.ids._enemy_cavalryman.text = "骑兵: %s" % str(format(self.enemy["cavalryman"],  ","))
+		#print("let me know cavalryman: ", self.cavalryman_max)
 
+		self.ids._lancer_assign.max = self.lancer_max
+		self.ids._shieldman_assign.max = self.shieldman_max
+		self.ids._archer_assign.max = self.archer_max
+		self.ids._cavalryman_assign.max = self.cavalryman_max
+
+		# show result of war
+		if not self.show_war_result:
+			return
+
+		self.ids._resources_rob.text = "掠夺资源: %s" % str(format(self.resources_rob, ","))
+		damaged_lancer = self.me_soldiers["lancer"] - self.result["soldiers"]["lancer"]
+		damaged_shieldman = self.me_soldiers["shieldman"] - self.result["soldiers"]["shieldman"]
+		damaged_archer = self.me_soldiers["archer"] - self.result["soldiers"]["archer"]
+		damaged_cavalryman = self.me_soldiers["cavalryman"] - self.result["soldiers"]["cavalryman"]
+		damaged_1 = "枪兵损耗: %s, 盾兵损耗: %s" % \
+			(str(format(damaged_lancer, ",")), str(format(damaged_shieldman, ",")))
+		damaged_2 = "弓兵损耗: %s, 骑兵损耗: %s" % \
+			(str(format(damaged_archer, ",")), str(format(damaged_cavalryman, ",")))
+		self.ids._damaged_1.text = damaged_1
+		self.ids._damaged_2.text = damaged_2
+		self.show_war_result = False

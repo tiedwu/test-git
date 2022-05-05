@@ -11,11 +11,8 @@ from kivy.clock import Clock
 from os.path import exists
 import json
 
-from kivy.uix.label import Label
+#from kivy.uix.label import Label
 
-#import war_page
-
-#from kivy.utils import utils
 
 Builder.load_file("layout.kv")
 Builder.load_file("manage_page.kv")
@@ -25,14 +22,14 @@ Builder.load_file("war_page.kv")
 Builder.load_file("store_page.kv")
 Builder.load_file("news_page.kv")
 
-class WarMainLabel(Label):
-    color = [0, 0, 0, 1]
-    font_size = 20
-    font_name = "font/DroidSansFallback.ttf"
+#class WarMainLabel(Label):
+#    color = [0, 0, 0, 1]
+#    font_size = 20
+#    font_name = "font/DroidSansFallback.ttf"
     #color: 0, 0, 0, 1
-    text_size = [200, 100]
-    halign = 'left'
-    valign ='middle'  
+#    text_size = [200, 100]
+#    halign = 'left'
+#    valign ='middle'  
 
 class MainInfo(BoxLayout):
     nickname = 'Admin'
@@ -123,23 +120,100 @@ class RootWidget(BoxLayout):
 		self.ids["_multipage"].ids["_storepage"].ids["_get_crystal_15"].bind(on_release=self.get_crystal_15)
 
 	def campaign(self, instance):
-		# me
-		#me = self.data["soldiers"]
-		# enemy
-		#enemy = self.ids._multipage.ids._warpage.enemy
-		
-		#print(me, enemy)
-		result = self.ids._multipage.ids._warpage.campaign(self.data["soldiers"])
+
+		cost = self.ids._multipage.ids._warpage.campaign_cost
+		print(cost)
+		print("me_soldiers: ", self.ids._multipage.ids._warpage.me_soldiers)		
+		campaign_soldiers = self.ids._multipage.ids._warpage.me_soldiers
+
+
+		if self.ids._maininfo.resources < cost or cost == 0:
+			return
+
+		# crystal cost
+		if self.ids._maininfo.crystal < 2:
+			return
+		self.ids._maininfo.crystal -= 2
+
+		# soldiers consuming
+		self.ids._multipage.ids._militarypage.lancer -= campaign_soldiers["lancer"]
+		self.ids._multipage.ids._militarypage.shieldman -= campaign_soldiers["shieldman"]
+		self.ids._multipage.ids._militarypage.archer -= campaign_soldiers["archer"]
+		self.ids._multipage.ids._militarypage.cavalryman -= campaign_soldiers["cavalryman"]
+
+		print("Before resources: ", self.ids._maininfo.resources)
+		# resources consuming
+		self.ids._maininfo.resources -= int(cost)
+		print("After resources: ", self.ids._maininfo.resources)
+
+		result = self.ids._multipage.ids._warpage.campaign()
 		print(result)
+		enemy = self.ids._multipage.ids._warpage.enemy
+		#print(enemy["resources"])
+		resources_rob = 0
+
+		# set resources for rob
+		if result["resources"] >= enemy["resources"]:
+			resources_rob = enemy["resources"]
+		else:
+			resources_rob = int(result["resources"])
+		self.ids._multipage.ids._warpage.resources_rob = resources_rob
+		print("rob: ", resources_rob)
+		self.ids._maininfo.resources = int(self.ids._maininfo.resources + resources_rob)
+		print("After rob resources: ", self.ids._maininfo.resources)
+		self.ids._maininfo.update()
+
+		# set soldiers after campaign
+		soldiers = {"lancer": self.ids._multipage.ids._militarypage.lancer,
+					"shieldman": self.ids._multipage.ids._militarypage.shieldman,
+					"archer": self.ids._multipage.ids._militarypage.archer,
+					"cavalryman": self.ids._multipage.ids._militarypage.cavalryman}
+		soldiers["lancer"] += result["soldiers"]["lancer"]
+		soldiers["shieldman"] += result["soldiers"]["shieldman"]
+		soldiers["archer"] += result["soldiers"]["archer"]
+		soldiers["cavalryman"] += result["soldiers"]["cavalryman"]
+		self.ids._multipage.ids._militarypage.set_soldiers(soldiers)
+		self.ids._multipage.ids._militarypage.update()
+
+		# set max of sliders in war page
+		self.ids._multipage.ids._warpage.lancer_max =\
+			self.ids._multipage.ids._militarypage.lancer
+		self.ids._multipage.ids._warpage.shieldman_max =\
+			self.ids._multipage.ids._militarypage.shieldman
+		self.ids._multipage.ids._warpage.archer_max = \
+			self.ids._multipage.ids._militarypage.archer
+		self.ids._multipage.ids._warpage.cavalryman_max =\
+			self.ids._multipage.ids._militarypage.cavalryman
+		self.ids._multipage.ids._warpage.update()
 
 	def show_enemy(self, instance):
-        	# get enemy id
+		# clear the flag of show war result in warpage
+		self.ids._multipage.ids._warpage.ids._resources_rob.text = ""
+		self.ids._multipage.ids._warpage.ids._damaged_1.text = ""
+		self.ids._multipage.ids._warpage.ids._damaged_2.text = ""
+
+		# show campaign military
+		self.ids._multipage.ids._warpage.lancer_max =\
+			self.ids._multipage.ids._militarypage.lancer
+		self.ids._multipage.ids._warpage.shieldman_max =\
+			self.ids._multipage.ids._militarypage.shieldman
+		self.ids._multipage.ids._warpage.archer_max = \
+			self.ids._multipage.ids._militarypage.archer
+		self.ids._multipage.ids._warpage.cavalryman_max =\
+			self.ids._multipage.ids._militarypage.cavalryman
+
+        # get enemy id
 		enemy_id = self.ids._multipage.ids._warpage.ids._get_enemyid.text
 		if enemy_id == "":
 			return
 		print(enemy_id)
 		if enemy_id not in self.enemy_data.keys():
 			return
+
+		# crystal cost
+		if self.ids._maininfo.crystal < 45:
+			return
+		self.ids._maininfo.crystal -= 45
 
 		war_enemy = self.enemy_data[enemy_id]
 		enemy = {
@@ -153,7 +227,7 @@ class RootWidget(BoxLayout):
             "cavalryman": war_enemy["soldiers"]["cavalryman"]
         }
 		self.ids["_multipage"].ids["_warpage"].set_enemy(enemy)
-		self.ids["_multipage"].ids["_warpage"].update_enemy()
+		self.ids["_multipage"].ids["_warpage"].update()
 
 	def get_crystal_15(self, instance):
 		self.ids["_maininfo"].crystal += 15
@@ -170,6 +244,10 @@ class RootWidget(BoxLayout):
 					self.ids["_multipage"].ids["_militarypage"].lancer = lancer
 					self.ids["_maininfo"].resources -= cost
 					self.ids["_multipage"].ids["_militarypage"].update()
+
+					# sync to war page
+					self.ids._multipage.ids._warpage.lancer_max = lancer
+					self.ids._multipage.ids._warpage.update()
         # set unit = 0 after done
         #self.ids["_multipage"].ids["_militarypage"].unit = 0
 
@@ -184,6 +262,9 @@ class RootWidget(BoxLayout):
 					self.ids["_multipage"].ids["_militarypage"].shieldman = shieldman
 					self.ids["_maininfo"].resources -= cost
 					self.ids["_multipage"].ids["_militarypage"].update() 
+					# sync to war page
+					self.ids._multipage.ids._warpage.shieldman_max = shieldman
+					self.ids._multipage.ids._warpage.update()
         # set unit = 0 after done
         #self.ids["_multipage"].ids["_militarypage"].unit = 0
         #self.ids["_multipage"].ids["_militarypage"].update()
@@ -199,6 +280,9 @@ class RootWidget(BoxLayout):
 					self.ids["_multipage"].ids["_militarypage"].archer = archer
 					self.ids["_maininfo"].resources -= cost
 					self.ids["_multipage"].ids["_militarypage"].update()
+					# sync to war page
+					self.ids._multipage.ids._warpage.archer_max = archer
+					self.ids._multipage.ids._warpage.update()
 
 	def train_cavalryman(self, instance):
 		print("train cavalryman")
@@ -211,6 +295,9 @@ class RootWidget(BoxLayout):
 					self.ids["_multipage"].ids["_militarypage"].cavalryman = cavalryman
 					self.ids["_maininfo"].resources -= cost
 					self.ids["_multipage"].ids["_militarypage"].update()
+					# sync to war page
+					self.ids._multipage.ids._warpage.cavalryman_max = cavalryman
+					self.ids._multipage.ids._warpage.update()
 
 	def upgrade_castle(self, instance):
         #print("upgrade castle")
@@ -292,7 +379,7 @@ class RootWidget(BoxLayout):
 		self.ids["_multipage"].ids["_managepage"].update()
 		self.ids["_multipage"].ids["_buildingpage"].update()
 
-		print("update data in jason")
+		#print("update data in jason")
 		self.data["buildings"]["castle"] = self.ids["_multipage"].ids["_buildingpage"].castle
 		self.data["buildings"]["house"] = self.ids["_multipage"].ids["_buildingpage"].house
 		self.data["buildings"]["guard"] = self.ids["_multipage"].ids["_buildingpage"].guard
@@ -361,9 +448,11 @@ class GameApp(App):
         data = {"admin": {"resources": 0}}
         """
         self.data[self.userid] = self.root.data
-        with open(self.data_path, "w") as f:
-            json.dump(self.data, f)
-        print("saved!")
+        
+        # save chinese in json with indent=4
+        with open(self.data_path, "w", encoding='utf-8') as f:
+            json.dump(self.data, f, indent=4, ensure_ascii=False)
+        #print("saved!")
 
     def on_quit(self, *args):
         self.save_data()    
