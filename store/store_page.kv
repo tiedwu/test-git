@@ -1,0 +1,237 @@
+
+<StoreLabel@Label>    
+    font_size: '16sp'
+    font_name: "font/DroidSansFallback.ttf"
+    color: 0, 0, 0, 1
+<StoreButton@Button,StoreTextInput@TextInput>    
+    font_size: '16sp'
+    font_name: "font/DroidSansFallback.ttf"
+    #color: 0, 0, 0, 1
+
+<StorePage>:
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .15
+            BoxLayout:
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u"资源增产"
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u"拥有时间"
+                StoreLabel:
+					id: _double_gathering_remain
+                    size_hint: .6, 1
+                    text: "0"
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                padding: 10, 6
+                StoreLabel:
+                    #font_size: '13sp'
+                    text: u"资源生产量和采集量翻倍, 1小时50水晶"
+                StoreButton:
+                    size_hint: .2, 1
+                    text: u"购买"
+					on_release:
+						root.double_gathering_time += 3600
+						_double_gathering_remain.text = str(format(root.double_gathering_time, ","))
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .15
+            BoxLayout:
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u"金手指"
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: ""
+                StoreLabel:
+                    size_hint: .6, 1
+                    text: ""
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                padding: 10, 6
+                StoreLabel:
+                    text: u"瞬间完成500次资源采集, 15水晶"
+                StoreButton:
+					id: _rapid_gathering
+                    size_hint: .2, 1
+                    text: u"购买"
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .15
+            BoxLayout:
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u"加班生产"
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: ""
+                StoreLabel:
+                    size_hint: .6, 1
+                    text: ""
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                padding: 10, 6
+                StoreLabel:
+                    text: u"瞬间获得1小时的资源生产量, 200水晶"
+                StoreButton:
+					id: _resources_increase
+                    size_hint: .2, 1
+                    text: u"购买"
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .15
+            BoxLayout:
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u"双倍负重"
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u"拥有时间"
+                StoreLabel:
+					id: _double_payload_remain
+                    size_hint: .6, 1
+                    text: "0"
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                padding: 10, 6
+                StoreLabel:
+                    text: u"有效期内双倍负重, 1小时50水晶"
+                StoreButton:
+                    size_hint: .2, 1
+                    text: u"购买"
+					on_release: 
+						root.double_payload_time += 3600
+						_double_payload_remain.text = str(format(root.double_payload_time, ","))
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .15
+            BoxLayout:
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u"解散军队"
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u""
+                StoreLabel:
+                    size_hint: .6, 1
+                    text: ""
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                padding: 10, 6
+                StoreLabel:
+                    #font_size: '13sp'
+                    text: u"解散军队, 25水晶"
+                StoreButton:
+					id: _dismiss_military
+                    size_hint: .2, 1
+                    text: u"购买"
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+        BoxLayout:
+            size_hint: 1, .25
+            orientation: 'vertical'
+            BoxLayout:
+                spacing: 30
+                padding: 10, 25
+                StoreLabel:
+                    size_hint: .2, 1
+                    text: u"福利码"
+                AnchorLayout:
+                    size_hint: .6, 1
+                #padding: 10
+                #Button:
+                    #text: "TEST"
+                    StoreTextInput:
+                        size_hint: .99, .99
+                    #hint_text: '%s, %s' % (self.get_center_x(), self.get_center_y())
+                        hint_text: u'加群可获取更多福利码'
+                        multiline: False
+                    #size: 200, 30
+                        pos_hint: {'x': .1}
+                StoreButton:
+                    size_hint: .2, 1
+                    text: u"兑换"
+            BoxLayout:
+				size_hint: 1, .2
+                StoreLabel:
+                    size_hint: .22, 1
+                    font_size: '13sp'
+                    text: u"广告剩余次数: "
+                StoreLabel:
+                    size_hint: .05, 1
+                    text: "99"
+                StoreLabel:
+                    size_hint: .18, 1
+                    fonr_size: '13sp'
+                    text: u"  冷却时间: "
+                StoreLabel:
+                    size_hint: .05, 1
+                    text: "0"
+                StoreLabel:
+                    size_hint: .5, 1
+                    text: u"每30分钟增加一次, 上限50"
+            BoxLayout:
+                padding: 50, 10
+                spacing: 50
+                StoreButton:
+                    text: "看广告 50水晶"
+                StoreButton:
+                    id: _get_crystal_15
+                    text: "不看广告 15水晶"
