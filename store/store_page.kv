@@ -40,11 +40,12 @@
                     #font_size: '13sp'
                     text: u"资源生产量和采集量翻倍, 1小时50水晶"
                 StoreButton:
+					id: _double_gathering_clicked
                     size_hint: .2, 1
                     text: u"购买"
-					on_release:
-						root.double_gathering_time += 3600
-						_double_gathering_remain.text = str(format(root.double_gathering_time, ","))
+					#on_release:
+					#	root.double_gathering_time += 3600
+					#	_double_gathering_remain.text = str(format(root.double_gathering_time, ","))
                 Label:
                     size_hint: .1, 1
                     text: ""
@@ -142,11 +143,13 @@
                 StoreLabel:
                     text: u"有效期内双倍负重, 1小时50水晶"
                 StoreButton:
+					id: _double_payload_clicked
                     size_hint: .2, 1
                     text: u"购买"
-					on_release: 
-						root.double_payload_time += 3600
-						_double_payload_remain.text = str(format(root.double_payload_time, ","))
+					#on_release: 
+						#id: _double_payload_clicked
+						#root.double_payload_time += 3600
+						#_double_payload_remain.text = str(format(root.double_payload_time, ","))
                 Label:
                     size_hint: .1, 1
                     text: ""

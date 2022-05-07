@@ -21007,8 +21007,8 @@
             "guard": 3,
             "camp": 3
         },
-        "resources": 1873083453,
-        "resources_increase": 100005,
+        "resources": 5038482374,
+        "resources_increase": 200010,
         "residents": 100005,
         "residents_increase": 20000,
         "soldiers": {
@@ -21017,9 +21017,9 @@
             "archer": 0,
             "cavalryman": 0
         },
-        "mines": 2719198957,
-        "crystal": 192,
-        "double_gathering_time": 0,
-        "double_payload_time": 0
+        "mines": 3657298957,
+        "crystal": 16,
+        "double_gathering_time": 32229,
+        "double_payload_time": 10659
     }
 }

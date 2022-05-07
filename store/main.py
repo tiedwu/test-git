@@ -21,22 +21,23 @@ Builder.load_file("store_page.kv")
 Builder.load_file("news_page.kv") 
 
 class MainInfo(BoxLayout):
-    nickname = 'Admin'
-    userid = '999999'
-    crystal = 99999
-    resources = 0
-    resources_increase = 0
-    residents = 0
-    residents_increase = 0
+	nickname = 'Admin'
+	userid = '999999'
+	crystal = 99999
+	resources = 0
+	resources_increase = 0
+	residents = 0
+	residents_increase = 0
 
-    def update(self):
-        self.ids["_nickname"].text = u'%s' % self.nickname
-        self.ids["_userid"].text = self.userid
-        self.ids["_crystal"].text = str(format(self.crystal, ","))
-        self.ids["_resources"].text = str(format(self.resources, ","))
-        self.ids["_resources_increase"].text = '%s/s' % str(format(self.resources_increase, ","))
-        self.ids["_residents"].text = str(format(self.residents, ","))
-        self.ids["_residents_increase"].text = '%s/m' % str(format(self.residents_increase, ","))
+	def update(self):
+		#print("_maininfo.update()", self.resources_increase)
+		self.ids["_nickname"].text = u'%s' % self.nickname
+		self.ids["_userid"].text = self.userid
+		self.ids["_crystal"].text = str(format(self.crystal, ","))
+		self.ids["_resources"].text = str(format(self.resources, ","))
+		self.ids["_resources_increase"].text = '%s/s' % str(format(self.resources_increase, ","))
+		self.ids["_residents"].text = str(format(self.residents, ","))
+		self.ids["_residents_increase"].text = '%s/m' % str(format(self.residents_increase, ","))
 
 class MultiPage(ScreenManager):
     pass
@@ -106,7 +107,6 @@ class RootWidget(BoxLayout):
 		self.ids["_multipage"].ids["_militarypage"].ids["_train_archer"].bind(on_release=self.train_archer)
 		self.ids["_multipage"].ids["_militarypage"].ids["_train_cavalryman"].bind(on_release=self.train_cavalryman)
 
-
 		# bind warpage buttons
 		self.ids["_multipage"].ids["_warpage"].ids["_target_assign"].bind(on_release=self.target_enemy)
 		self.ids._multipage.ids._warpage.ids._campaign.bind(on_release=self.campaign)
@@ -121,13 +121,61 @@ class RootWidget(BoxLayout):
 			on_release=self.resources_produce)
 		self.ids._multipage.ids._storepage.ids._dismiss_military.bind(\
 			on_release=self.dismiss_military)
+		self.ids._multipage.ids._storepage.ids._double_gathering_clicked.bind(\
+			on_release=self.double_gathering)
+		self.ids._multipage.ids._storepage.ids._double_payload_clicked.bind(\
+			on_release=self.double_payload)
 		self.ids["_multipage"].ids["_storepage"].ids["_get_crystal_15"].bind(on_release=self.get_crystal_15)
+
+		# init store page: double gathering/payload time
+		self.ids._multipage.ids._storepage.double_gathering_time = \
+			self.data["double_gathering_time"]
+		self.ids._multipage.ids._storepage.double_payload_time = \
+			self.data["double_payload_time"]
+		self.ids._multipage.ids._storepage.update()
+
+	def double_gathering(self, instance):
+
+		if self.ids._maininfo.crystal < 50:
+			return
+		self.ids._maininfo.crystal -= 50
+
+		self.ids._multipage.ids._storepage.double_gathering_time += 3600
+		self.ids._multipage.ids._storepage.update()
+
+	def double_payload(self, instance):
+		if self.ids._maininfo.crystal < 50:
+			return
+		self.ids._maininfo.crystal -= 50
+
+		self.ids._multipage.ids._storepage.double_payload_time += 3600
+		self.ids._multipage.ids._storepage.update()
 
 	def rapid_gathering(self, instance):
 		print("rapid gathering")
 
+		if self.ids._maininfo.crystal < 15:
+			return
+		self.ids._maininfo.crystal -= 15
+
+		castle_lv = self.ids["_multipage"].ids["_buildingpage"].castle
+		increase = 3 if castle_lv == 0 else castle_lv * 5
+		increase = 500 * increase
+		if self.ids._multipage.ids._storepage.double_gathering_time > 0:
+			increase = increase * 2
+		self.ids._multipage.ids._managepage.gathering_capacity = increase
+		if self.ids["_multipage"].ids["_managepage"].mines >= increase:
+			self.ids["_maininfo"].resources += increase
+			self.ids["_multipage"].ids["_managepage"].mines -= increase
+
 	def resources_produce(self, instance):
-		print("resources produce")
+
+		if self.ids._maininfo.crystal < 200:
+			return
+		self.ids._maininfo.crystal -= 200
+		produce = self.ids._maininfo.resources_increase * 3600
+		self.ids._maininfo.resources += produce
+		#print("resources produce:" , produce)
 
 	def dismiss_military(self, instance):
 		print("dismiss military")
@@ -196,6 +244,12 @@ class RootWidget(BoxLayout):
 				resources_rob = int(enemy["resources"])
 		# mode == 'normal'
 		else:
+			# mode == "double_payload"
+			if mode == "double_payload":
+				print("DOUBLE_PAYLOAD")
+				result["resources"] = result["resources"] * 2
+
+			print("result[resources]:", result["resources"])
 			if result["resources"] >= enemy["resources"]:
 				resources_rob = int(enemy["resources"])
 			else:
@@ -239,7 +293,10 @@ class RootWidget(BoxLayout):
 		print(cost)
 		#print("me_soldiers: ", self.ids._multipage.ids._warpage.me_soldiers)
 
-		self.do_attack(mode='normal', resources_cost=int(cost), crystal=2)
+		mode = "normal"
+		if self.ids._multipage.ids._storepage.double_payload_time > 0:
+			mode = 'double_payload'
+		self.do_attack(mode=mode, resources_cost=int(cost), crystal=2)
 
 	def show_enemy(self, enemy_id, crystal):
 		# clear the flag of show war result in warpage
@@ -411,6 +468,7 @@ class RootWidget(BoxLayout):
 			if self.ids["_maininfo"].residents > residents_limit:
 				self.ids["_maininfo"].residents = residents_limit
 
+
 		# resources auto increase
 		soldiers = self.ids["_multipage"].ids["_militarypage"].lancer + \
 			self.ids["_multipage"].ids["_militarypage"].shieldman + \
@@ -420,7 +478,22 @@ class RootWidget(BoxLayout):
 		labors = self.ids["_maininfo"].residents - soldiers
 		self.ids["_multipage"].ids["_managepage"].labors = labors
 		self.ids["_maininfo"].resources_increase = labors
-		self.ids["_maininfo"].resources += self.ids["_multipage"].ids["_managepage"].labors
+
+		# check double gathering time
+		if self.ids._multipage.ids._storepage.double_gathering_time > 0:
+			#print("double gathering remaining...")
+			self.ids._maininfo.resources_increase = \
+				self.ids._maininfo.resources_increase * 2 
+		self.ids["_maininfo"].resources += \
+			self.ids["_multipage"].ids["_managepage"].labors
+
+		# store page: double_gathering_time count down
+		if self.ids._multipage.ids._storepage.double_gathering_time > 0:
+			self.ids._multipage.ids._storepage.double_gathering_time -= 1
+		# store page: double_payload_time count down
+		if self.ids._multipage.ids._storepage.double_payload_time > 0:
+			self.ids._multipage.ids._storepage.double_payload_time -= 1
+		self.ids._multipage.ids._storepage.update()
 
 		# update labels
 		self.ids["_maininfo"].update()
@@ -447,12 +520,17 @@ class RootWidget(BoxLayout):
 		self.data["soldiers"]["archer"] = self.ids["_multipage"].ids["_militarypage"].archer
 		self.data["soldiers"]["cavalryman"] = self.ids["_multipage"].ids["_militarypage"].cavalryman
 
-		self.data["double_gathering_time"] = 0
-		self.data["double_payload_time"] = 0
+		self.data["double_gathering_time"] = \
+			self.ids._multipage.ids._storepage.double_gathering_time
+		self.data["double_payload_time"] = \
+			self.ids._multipage.ids._storepage.double_payload_time
 
 	def gather(self, instance):
 		castle_lv = self.ids["_multipage"].ids["_buildingpage"].castle
 		increase = 3 if castle_lv == 0 else castle_lv * 5
+		if self.ids._multipage.ids._storepage.double_gathering_time > 0:
+			increase = increase * 2
+		self.ids._multipage.ids._managepage.gathering_capacity = increase
 		if self.ids["_multipage"].ids["_managepage"].mines >= increase:
 			self.ids["_maininfo"].resources += increase
 			self.ids["_multipage"].ids["_managepage"].mines -= increase
