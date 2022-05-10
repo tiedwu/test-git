@@ -1,3 +1,25 @@
+#:import Factory kivy.factory.Factory
+
+<AdvWidget>:
+	id: _adv
+	title: ""
+	separator_height: 0
+	on_open: root.countdown()
+	FloatLayout:
+		Label:
+			id: _adv_countdown
+			text: "30"
+			text_size: self.size
+			valign: 'top'
+			pos_hint: {'x': 0, 'top': 1}
+		AsyncImage:
+			id: _image_path
+			source: 'adverts/pic-001.jpg'
+			pos_hint: {'center_x':.5, 'center_y': .5}
+		Button:
+			text: "X"
+			size_hint: .05, .05
+			on_release: root.confirm_dismiss()
 
 <StoreLabel@Label>    
     font_size: '16sp'
@@ -202,6 +224,7 @@
                 #Button:
                     #text: "TEST"
                     StoreTextInput:
+						id: _bonus_code
                         size_hint: .99, .99
                     #hint_text: '%s, %s' % (self.get_center_x(), self.get_center_y())
                         hint_text: u'加群可获取更多福利码'
@@ -209,6 +232,7 @@
                     #size: 200, 30
                         pos_hint: {'x': .1}
                 StoreButton:
+					id: _take_bonus
                     size_hint: .2, 1
                     text: u"兑换"
             BoxLayout:
@@ -218,15 +242,17 @@
                     font_size: '13sp'
                     text: u"广告剩余次数: "
                 StoreLabel:
+					id: _crystal_counter
                     size_hint: .05, 1
-                    text: "99"
+                    text: str(root.crystal_counter)
                 StoreLabel:
                     size_hint: .18, 1
                     fonr_size: '13sp'
                     text: u"  冷却时间: "
                 StoreLabel:
+					id: _crystal_countdown
                     size_hint: .05, 1
-                    text: "0"
+                    text: str(root.crystal_countdown)
                 StoreLabel:
                     size_hint: .5, 1
                     text: u"每30分钟增加一次, 上限50"
@@ -234,7 +260,9 @@
                 padding: 50, 10
                 spacing: 50
                 StoreButton:
+					id: _adv_watching
                     text: "看广告 50水晶"
+					#on_release: Factory.AdvWidget().open() 
                 StoreButton:
                     id: _get_crystal_15
                     text: "不看广告 15水晶"

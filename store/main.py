@@ -11,6 +11,7 @@ from kivy.clock import Clock
 from os.path import exists
 import json
 import random
+from kivy.factory import Factory
 
 Builder.load_file("layout.kv")
 Builder.load_file("manage_page.kv")
@@ -125,14 +126,35 @@ class RootWidget(BoxLayout):
 			on_release=self.double_gathering)
 		self.ids._multipage.ids._storepage.ids._double_payload_clicked.bind(\
 			on_release=self.double_payload)
-		self.ids["_multipage"].ids["_storepage"].ids["_get_crystal_15"].bind(on_release=self.get_crystal_15)
+		self.ids._multipage.ids._storepage.ids._take_bonus.bind(\
+			on_release=self.coupon_exchange)
+		self.ids._multipage.ids._storepage.ids._adv_watching.bind(\
+			on_release=self.watching_adv)
+		self.ids["_multipage"].ids["_storepage"].ids["_get_crystal_15"].bind(\
+			on_release=self.get_crystal_15)
 
 		# init store page: double gathering/payload time
 		self.ids._multipage.ids._storepage.double_gathering_time = \
 			self.data["double_gathering_time"]
 		self.ids._multipage.ids._storepage.double_payload_time = \
 			self.data["double_payload_time"]
+
+		# init store page: crystal remain countdown
+		if "crystal_remain_countdown" not in self.data.keys():
+			self.data["crystal_remain_countdown"] = 0
+		self.ids._multipage.ids._storepage.crystal_remain_countdown = \
+			self.data["crystal_remain_countdown"]
 		self.ids._multipage.ids._storepage.update()
+
+	def coupon_exchange(self, instance):
+		code = self.ids._multipage.ids._storepage.ids._bonus_code.text
+		if code == "":
+			return 
+		if code == "crystal888":
+			self.ids._maininfo.crystal += 1000
+		if code == "resources666":
+			self.ids._maininfo.resources += 5000000000
+		self.ids._multipage.ids._storepage.ids._bonus_code.text = ""
 
 	def double_gathering(self, instance):
 
@@ -335,8 +357,21 @@ class RootWidget(BoxLayout):
 		self.ids["_multipage"].ids["_warpage"].update()
 
 	def get_crystal_15(self, instance):
-		self.ids["_maininfo"].crystal += 15
-		self.ids["_maininfo"].update()
+		if self.ids._multipage.ids._storepage.crystal_countdown == 0:
+			if self.ids._multipage.ids._storepage.crystal_counter > 0:
+				self.ids._multipage.ids._storepage.crystal_counter -= 1
+				self.ids["_maininfo"].crystal += 15
+				self.ids._multipage.ids._storepage.crystal_countdown = 60
+				self.ids["_maininfo"].update()
+
+	def watching_adv(self, instance):
+		#print("watching adv")
+		if self.ids._multipage.ids._storepage.crystal_countdown == 0:
+			if self.ids._multipage.ids._storepage.crystal_counter > 0:
+				self.ids._multipage.ids._storepage.crystal_counter -= 1
+				self.ids._maininfo.crystal += 50
+				self.ids._multipage.ids._storepage.crystal_countdown = 60
+				Factory.AdvWidget().open()
 
 	def train_lancer(self, instance):
 		print("train lancer")
@@ -468,6 +503,17 @@ class RootWidget(BoxLayout):
 			if self.ids["_maininfo"].residents > residents_limit:
 				self.ids["_maininfo"].residents = residents_limit
 
+		# crystal taking count down
+		if self.ids._multipage.ids._storepage.crystal_countdown > 0:
+			self.ids._multipage.ids._storepage.crystal_countdown -= 1
+			self.ids._multipage.ids._storepage.update()
+
+		if self.ids._multipage.ids._storepage.crystal_remain_countdown < 1800:
+			self.ids._multipage.ids._storepage.crystal_remain_countdown += 1
+		else:
+			self.ids._multipage.ids._storepage.crystal_remain_countdown = 0
+			if self.ids._multipage.ids._storepage.crystal_counter < 50:
+				self.ids._multipage.ids._storepage.crystal_counter += 1
 
 		# resources auto increase
 		soldiers = self.ids["_multipage"].ids["_militarypage"].lancer + \
@@ -493,7 +539,7 @@ class RootWidget(BoxLayout):
 		# store page: double_payload_time count down
 		if self.ids._multipage.ids._storepage.double_payload_time > 0:
 			self.ids._multipage.ids._storepage.double_payload_time -= 1
-		self.ids._multipage.ids._storepage.update()
+			self.ids._multipage.ids._storepage.update()
 
 		# update labels
 		self.ids["_maininfo"].update()
@@ -524,6 +570,8 @@ class RootWidget(BoxLayout):
 			self.ids._multipage.ids._storepage.double_gathering_time
 		self.data["double_payload_time"] = \
 			self.ids._multipage.ids._storepage.double_payload_time
+		self.data["crystal_remain_countdown"] = \
+			self.ids._multipage.ids._storepage.crystal_remain_countdown
 
 	def gather(self, instance):
 		castle_lv = self.ids["_multipage"].ids["_buildingpage"].castle
@@ -561,7 +609,7 @@ class GameApp(App):
                 "residents": 0, "residents_increase": 0, \
                 "soldiers": {"lancer": 0, "shieldman": 0, "archer": 0, "cavalryman": 0}, \
                 "mines": 0, "crystal": 0, "double_gathering_time": 0, \
-				"double_payload_time": 0}
+				"double_payload_time": 0, "crystal_remain_countdown": 0}
         self.data[self.userid] = user_data
 
     def check_user(self, userid="999999"):

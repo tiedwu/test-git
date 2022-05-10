@@ -21003,13 +21003,13 @@
         "nickname": "宿星河",
         "buildings": {
             "castle": 20000,
-            "house": 20001,
+            "house": 20025,
             "guard": 3,
             "camp": 3
         },
-        "resources": 5038482374,
-        "resources_increase": 200010,
-        "residents": 100005,
+        "resources": 30147047601,
+        "resources_increase": 200250,
+        "residents": 100125,
         "residents_increase": 20000,
         "soldiers": {
             "lancer": 0,
@@ -21017,9 +21017,10 @@
             "archer": 0,
             "cavalryman": 0
         },
-        "mines": 3657298957,
-        "crystal": 16,
-        "double_gathering_time": 32229,
-        "double_payload_time": 10659
+        "mines": 5777298957,
+        "crystal": 2191,
+        "double_gathering_time": 28626,
+        "double_payload_time": 0,
+        "crystal_remain_countdown": 573
     }
 }
