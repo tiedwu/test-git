@@ -1,0 +1,243 @@
+
+
+<MilitaryLabel@Label>    
+    font_size: '16sp'
+    font_name: "font/DroidSansFallback.ttf"
+    color: 0, 0, 0, 1
+<MilitaryButton@Button>    
+    font_size: '16sp'
+    font_name: "font/DroidSansFallback.ttf"
+    #color: 0, 0, 0, 1
+
+<MilitaryPage>:
+    BoxLayout:
+        orientation: 'vertical'
+        #spacing_y: 30
+        spacing: 5
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .2375
+            BoxLayout:
+                MilitaryLabel:
+                    size_hint: .2, 1
+                    text: "枪兵"
+                MilitaryLabel:
+                    size_hint: .2, 1
+                    text: "数量"
+                MilitaryLabel:
+                    id: _lancer
+                    size_hint: .6, 1
+                    text: str(format(root.lancer, ","))
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                BoxLayout:
+                    size_hint: .7, 1
+                    orientation: 'vertical'
+                    MilitaryLabel:
+                        text: u'血量5 ' + u'攻击13 ' + u'防御10 ' + u'负重3600'
+                    MilitaryLabel:
+                        text: "攻击时25%概率增加100%伤害"
+                MilitaryButton:
+                    id: _train_lancer
+                    size_hint: .2, 1
+                    text: u"训练"
+                    #on_release: root.train_lancer()
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+            BoxLayout:
+                spacing: 30
+                MilitaryLabel:
+                    size_hint: .3, 1
+                    text: u"     训练消耗100资源"
+                MilitaryLabel:
+                    size_hint: .7, 1
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+                    text: u"     出征消耗300资源"
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .2375
+            BoxLayout:
+                MilitaryLabel:
+                    size_hint: .2, 1
+                    text: "盾兵"
+                MilitaryLabel:
+                    size_hint: .2, 1
+                    text: "数量"
+                MilitaryLabel:
+                    id: _shieldman
+                    size_hint: .6, 1
+                    text: str(format(root.shieldman, ","))
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                BoxLayout:
+                    size_hint: .7, 1
+                    orientation: 'vertical'
+                    MilitaryLabel:
+                        text: u'血量9 ' + u'攻击7 ' + u'防御15 ' + u'负重3700'
+                    MilitaryLabel:
+                        text: "防御时额外减少50%伤害"
+                MilitaryButton:
+                    id: _train_shieldman
+                    size_hint: .2, 1
+                    text: u"训练"
+                    #on_release: root.train_shieldman()
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+            BoxLayout:
+                spacing: 30
+                MilitaryLabel:
+                    size_hint: .3, 1
+                    text: u"     训练消耗150资源"
+                MilitaryLabel:
+                    size_hint: .7, 1
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+                    text: u"     出征消耗350资源"
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .2375
+            BoxLayout:
+                MilitaryLabel:
+                    size_hint: .2, 1
+                    text: "弓兵"
+                MilitaryLabel:
+                    size_hint: .2, 1
+                    text: "数量"
+                MilitaryLabel:
+                    id: _archer
+                    size_hint: .6, 1
+                    text: str(format(root.archer, ","))
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                BoxLayout:
+                    size_hint: .7, 1
+                    orientation: 'vertical'
+                    MilitaryLabel:
+                        text: u'血量3 ' + u'攻击18 ' + u'防御8 ' + u'负重3800'
+                    MilitaryLabel:
+                        text: "攻击时25%概率攻击地方全体"
+                MilitaryButton:
+                    id: _train_archer
+                    size_hint: .2, 1
+                    text: u"训练"
+                    #on_release: root.train_archer()
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+            BoxLayout:
+                spacing: 30
+                MilitaryLabel:
+                    size_hint: .3, 1
+                    text: u"     训练消耗200资源"
+                MilitaryLabel:
+                    size_hint: .7, 1
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+                    text: u"     出征消耗450资源"
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            orientation: 'vertical'
+            size_hint: 1, .2375
+            BoxLayout:
+                MilitaryLabel:
+                    size_hint: .2, 1
+                    text: "骑兵"
+                MilitaryLabel:
+                    size_hint: .2, 1
+                    text: "数量"
+                MilitaryLabel:
+                    id: _cavalryman
+                    size_hint: .6, 1
+                    text: str(format(root.cavalryman, ","))
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+            BoxLayout:
+                BoxLayout:
+                    size_hint: .7, 1
+                    orientation: 'vertical'
+                    MilitaryLabel:
+                        text: u'血量7 ' + u'攻击15 ' + u'防御11 ' + u'负重3900'
+                    MilitaryLabel:
+                        text: "攻击时25%概率攻击敌方后排"
+                MilitaryButton:
+                    id: _train_cavalryman
+                    size_hint: .2, 1
+                    text: u"训练"
+                    #on_release: root.train_cavalryman()
+                Label:
+                    size_hint: .1, 1
+                    text: ""
+            BoxLayout:
+                spacing: 30
+                MilitaryLabel:
+                    size_hint: .3, 1
+                    text: u"     训练消耗350资源"
+                MilitaryLabel:
+                    size_hint: .7, 1
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+                    text: u"     出征消耗400资源"
+                    
+        BoxLayout:
+            size_hint: 1, .05
+            padding_x: 10
+            padding_y: 10
+            spacing: 50
+            MilitaryButton:
+                id: _unit_one
+                on_release: root.set_unit("_unit_one")
+                text: '个'
+            MilitaryButton:
+                id: _unit_ten
+                text: '十'
+                on_release: root.set_unit("_unit_ten")
+            MilitaryButton:
+                id: _unit_hundred
+                text: '百'
+                on_release: root.set_unit("_unit_hundred")
+            MilitaryButton:
+                id: _unit_thousand
+                text: '千'
+                on_release: root.set_unit("_unit_thousand")
+            MilitaryButton:
+                text: '万'
+                id: _unit_ten_thousand
+                on_release: root.set_unit("_unit_ten_thousand")
+        
