@@ -147,6 +147,9 @@ class RootWidget(BoxLayout):
 			self.data["crystal_remain_countdown"]
 		self.ids._multipage.ids._storepage.update()
 
+		# init news page
+		self.ids._multipage.ids._newspage.update()
+
 	def coupon_exchange(self, instance):
 		code = self.ids._multipage.ids._storepage.ids._bonus_code.text
 		if code == "":
@@ -258,15 +261,26 @@ class RootWidget(BoxLayout):
 			if next_index < MAX - 1:
 				next_index += 1
 			else:
-				data.pop("000")
+				#data.pop("000")
+				data["000"] = data["001"]
+				data["001"] = data["002"]
+				data["002"] = data["003"]
+				data["003"] = data["004"]
 				next_index = MAX - 1
 			index_str = '%03d' % next_index
 			data[index_str] = result
-		print(data)
+		#print(data)
+
+		# update news page
+		#self.ids._multipage.ids._newspage.update()
 
 		# save data
 		with open(file, "w", encoding='utf-8') as f:
 			json.dump(data, f, indent=4, ensure_ascii=False)
+
+		# update news page
+		self.ids._multipage.ids._newspage.update()
+		#print("after save()", self.ids._multipage.ids._newspage.data_items)
 
 	def do_attack(self, mode, resources_cost, crystal):
 		print(mode, resources_cost, crystal)
@@ -319,23 +333,23 @@ class RootWidget(BoxLayout):
 		self.ids._maininfo.update()
 
 		# save campaign history
-		enemy_id = "000028"
-		enemy_nickname = "xxxxx"
-		enemy_guard = 300
-		enemy_resources = 500000000
-		enemy_lancer = 200
-		enemy_archer = 400
-		enemy_shieldman = 400
-		enemy_cavalryman = 600
-		campaign_lancer = 0
-		campaign_shieldman = 0
-		campaign_archer = 0
-		campaign_cavalryman = 400000
-		resources_robbed = 1000000000
-		lancer_damaged = 0
-		shieldman_damaged = 0
-		archer_damaged = 0
-		cavalryman_damaged = 1000
+		enemy_id = enemy["id"]
+		enemy_nickname = enemy["name"]
+		enemy_guard = enemy["guard"]
+		enemy_resources = enemy["resources"]
+		enemy_lancer = enemy["lancer"]
+		enemy_archer = enemy["archer"]
+		enemy_shieldman = enemy["shieldman"]
+		enemy_cavalryman = enemy["cavalryman"]
+		campaign_lancer = campaign_soldiers["lancer"]
+		campaign_shieldman = campaign_soldiers["shieldman"]
+		campaign_archer = campaign_soldiers["archer"]
+		campaign_cavalryman = campaign_soldiers["cavalryman"]
+		resources_robbed = resources_rob
+		lancer_damaged = campaign_lancer - result["soldiers"]["lancer"]
+		shieldman_damaged = campaign_shieldman - result["soldiers"]["shieldman"]
+		archer_damaged = campaign_archer - result["soldiers"]["archer"]
+		cavalryman_damaged = campaign_cavalryman - result["soldiers"]["cavalryman"]
 		campaign_result = {"enemy_id": enemy_id, "enemy_nickname": enemy_nickname, "enemy_guard": enemy_guard, \
 			'enemy_resources': enemy_resources, 'enemy_lancer': enemy_lancer, 'enemy_shieldman': enemy_shieldman, \
 			'enemy_archer': enemy_archer, 'enemy_cavalryman': enemy_cavalryman, 'resources_robbed': resources_robbed, \

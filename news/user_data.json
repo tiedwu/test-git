@@ -21007,20 +21007,20 @@
             "guard": 3,
             "camp": 3
         },
-        "resources": 31149996831,
-        "resources_increase": 83874,
+        "resources": 38054054391,
+        "resources_increase": 152004,
         "residents": 100125,
         "residents_increase": 20000,
         "soldiers": {
             "lancer": 0,
             "shieldman": 0,
             "archer": 0,
-            "cavalryman": 58188
+            "cavalryman": 24123
         },
-        "mines": 6129298957,
-        "crystal": 2127,
-        "double_gathering_time": 26780,
+        "mines": 7725298957,
+        "crystal": 1254,
+        "double_gathering_time": 18571,
         "double_payload_time": 0,
-        "crystal_remain_countdown": 618
+        "crystal_remain_countdown": 1623
     }
 }
