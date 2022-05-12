@@ -1,0 +1,13 @@
+{"999999": {
+    "nickname": "宿星河",
+    "buildings": {
+                "castle": 20000, "house": 20001, "guard": 3, "camp": 3},
+    "resources": 15442618, "resources_increase": 79001, 
+    "residents": 100005, "residents_increase": 20000,
+    "soldiers": {
+                "lancer": 1,
+                "shieldman": 1,
+                "archer": 1001,
+                "cavalryman": 20001},
+    "mines": 145198957,
+    "crystal": 120}

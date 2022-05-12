@@ -23,22 +23,23 @@ def create_user(data, userid, name, degree):
         user_data["resources"] = random.randint(500000000, 1000000000)
         for k in user_data["soldiers"]:
             user_data["soldiers"][k] = random.randint(5000, 10000)
-        user_data["guard"] = random.randint(500, 1000)
+        user_data["buildings"]["guard"] = random.randint(500, 1000)
     elif degree == 'M':
         user_data["resources"] = random.randint(200000000, 500000000)
         for k in user_data["soldiers"]:
             user_data["soldiers"][k] = random.randint(1000, 2000)
-        user_data["guard"] = random.randint(200, 500)
+        user_data["buildings"]["guard"] = random.randint(200, 500)
     elif degree == 'L':
         user_data["resources"] = random.randint(100000000, 200000000)
         for k in user_data["soldiers"]:
             user_data["soldiers"][k] = 0
-        user_data["guard"] = random.randint(0, 100)        
+        user_data["buildings"]["guard"] = random.randint(0, 100)        
         
     data[userid] = user_data
     
-    with open(file, "w") as f:
-        json.dump(data, f)
+    # save chinese in json    
+    with open(file, "w", encoding='utf-8') as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
     print("create user: %s %s resources: %s soldiers: %s" % (userid, name, str(format(user_data["resources"], ",")), user_data["soldiers"]))    
     
 def delete_user(user):
@@ -47,8 +48,8 @@ def delete_user(user):
         data = json.load(f)
     data.pop(user)
     
-    with open(file, "w") as f:
-        json.dump(data, f)
+    with open(file, "w", encoding='utf-8') as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
     print("delete user: %s" % user)        
 
 def check_user(user, name, degree):
